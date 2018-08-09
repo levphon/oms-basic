@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.glsx.oms.basic.biz.servicemanage.mapper.ServiceCategoryMapper">
+
+	<select id="queryById" resultType="com.glsx.oms.basic.biz.servicemanage.model.ServiceCategory">
+	select 
+		id id, 
+		parent_id parentId,
+		name name,
+		type type,
+		description description,
+		type type,
+		service_count serviceCount,
+		create_by createBy,
+		create_time createTime,
+		update_by updateBy,
+		update_time updateTime
+		from platform_service_classfication
+		where id=#{id}
+	</select>
+
+
+	<select id="queryParent" resultType="com.glsx.oms.basic.biz.servicemanage.model.ServiceCategory">
+	select 
+		id id, 
+		parent_id parentId,
+		name name,
+		type type,
+		service_count serviceCount,
+		description description,
+		create_by createBy,
+		create_time createTime,
+		update_by updateBy,
+		update_time updateTime
+		from platform_service_classfication
+		where parent_id=0
+	</select>
+
+
+	<select id="queryChild" resultType="com.glsx.oms.basic.biz.servicemanage.model.ServiceCategory">
+	select 
+		id id, 
+		parent_id parentId,
+		name name,
+		type type,
+		service_count serviceCount,
+		description description,
+		create_by createBy,
+		create_time createTime,
+		update_by updateBy,
+		update_time updateTime
+		from platform_service_classfication
+		where FIND_IN_SET(id, getServiceCategoryChildList(#{id}))
+	</select>
+	<insert id="insert"  parameterType="com.glsx.oms.basic.biz.servicemanage.model.ServiceCategory">
+		INSERT INTO platform_service_classfication VALUES
+		(
+		#{id},
+		#{parentId},
+		#{name},
+		#{type},
+		#{description},
+		#{createBy},
+		now(),
+		#{updateBy},
+		now()
+		)
+	</insert>
+	
+	<delete id="delete" parameterType="com.glsx.oms.basic.biz.servicemanage.model.ServiceCategory">
+		delete from platform_service_classfication where id = #{id};
+	</delete>
+	
+	<update id="update" parameterType="com.glsx.oms.basic.biz.servicemanage.model.ServiceCategory">
+		update platform_service_classfication SET name= #{name},type=#{type},description=#{description},update_time=now()
+		where id=#{id}
+	</update>
+</mapper>

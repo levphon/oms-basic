@@ -1,0 +1,28 @@
+<FindBugsFilter>
+	<Match>
+		<Package name="com.glsx.operating.cuss.framework.*" />
+	</Match>
+	<Match>
+		<!-- <Bug pattern="RI_REDUNDANT_INTERFACES" /> -->
+		<!-- <Bug pattern="NM_CLASS_NAMING_CONVENTION" /> -->
+		<!-- <Bug pattern="REC_CATCH_EXCEPTION" /> -->
+	</Match>
+	<Match>
+		<Method name="main" />
+	</Match>
+	<Match>
+		<Method name="main" />
+	</Match>
+	<Match>
+		<Class name="~.*\.*Test" />
+	</Match>
+	<Match>
+		<Class name="~.*\.*Value" />
+	</Match>
+	<Match>
+		<Class name="~.*\.*Value\$.*" />
+	</Match>
+	<Match>
+		<Class name="~.*\.*Table" />
+	</Match>
+</FindBugsFilter>

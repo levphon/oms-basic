@@ -1,0 +1,25 @@
+<div class="inmodal">
+	<div class="modal-header">
+		<h4 class="modal-title">添加服务</h4>
+	</div>
+	<div class="modal-body">
+		<!-- 自定义查询表单 -->
+		<form role="form" class="form-horizontal" name="add_service_form">
+			<div class="form-group m-b-none">
+				<div class="col-lg-10">
+					<input name="conditon" class="form-control" type="text" 
+					placeholder="支持按服务名称、服务编号搜索" 	ng-model="condition.name" />
+				</div>
+				<div class="col-lg-2">
+					<button type="button" class="btn btn-primary btn-block pull-right" ng-click="query()">查询</button>
+				</div>
+			</div>
+		</form>
+		<dual-tablebox ng-if="selectingList" dt-option="dtOption"
+			dt-instance="dtInstance"> </dual-tablebox>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary" ng-click="ok()">确定</button>
+		<button type="button" class="btn btn-white" ng-click="cancel()">取消</button>
+	</div>
+</div>

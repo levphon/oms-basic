@@ -1,0 +1,225 @@
+<div class="inmodal">
+	<div class="modal-header">
+		<h4 class="modal-title">{{isEdit ? "编辑" : "添加"}}服务套餐</h4>
+	</div>
+	<div class="modal-body">
+		<form role="form" class="form-horizontal form-fixed form-fixed-6" novalidate
+			name="add_servicePackage_form">
+			<input ng-if="isEdit" class="form-control" type="hidden" ng-model="servicePackageData.id"/>			
+			<div class="form-group">
+				<label class="col-lg-3 control-label required">服务套餐名称</label>
+				<div class="col-lg-9 control-content">
+				    <input name="origName" class="form-control" type="hidden" ng-model="origName"/>
+					<input name="Name" class="form-control" type="text"
+						v-onblur v-async="asyncCallback(value)" ng-required="true"
+						ng-model="servicePackageData.name" maxlength="50"/>
+					<div class="m-t-xs"
+						ng-show="add_servicePackage_form.Name.$invalid && add_servicePackage_form.submitted">
+					<small class="text-danger"
+							ng-show="add_servicePackage_form.Name.$error.required">请填写服务套餐名称</small>
+					<small class="text-danger" 
+						    ng-show="add_servicePackage_form.Name.$error.vAsync">服务套餐名称已存在，请重新输入</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">服务套餐别名</label>
+				<div class="col-lg-9 control-content">
+					<input class="form-control" type="text" ng-model="servicePackageData.alias" maxlength="50" />				
+				</div>
+			</div>
+			<div class="form-group" >
+				<label class="col-lg-3 control-label required">支持的设备</label>
+				<div class="col-lg-9 control-content">
+					<div>
+						<button class="btn btn-primary btn-sm" type="button"
+							ng-click="addDevice()">添加设备</button>
+					    <input name="device" class="form-control" type="hidden" ng-required="true" ng-model="deviceList[0]"/>
+					    <div class="m-t-xs"
+						ng-show="add_servicePackage_form.device.$invalid && add_servicePackage_form.submitted">
+						<small class="text-danger"
+							ng-show="add_servicePackage_form.device.$error.required">请添加设备</small>
+					    </div>				
+					</div>
+					<div>
+						<table datatable="ng" dt-options="dtOptions"
+							class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>设备编号</th>
+									<th>设备名称</th>
+									<th>供应商名称</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in deviceList">
+									<td>{{ item.deviceId }}</td>
+									<td>{{ item.deviceName }}</td>
+									<td>{{ item.supplierName }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label required">添加卡</label>
+				<div class="col-lg-9 control-content">
+					<label class="checkbox-inline p-l-none"> <input icheck name="cqltCard" type="checkbox"
+						ng-change="getCardService()" ng-model="servicePackageData.cqltCard"> 重庆联通卡
+					</label> 
+					<label class="checkbox-inline"> <input icheck name="glfrCard" type="checkbox" 
+						ng-change="getCardService()" ng-model="servicePackageData.glfrCard"> 广联繁睿卡
+					</label>
+					<label class="checkbox-inline"> <input icheck name="gl3GCard" type="checkbox" 
+						ng-change="getCardService()" ng-model="servicePackageData.gl3GCard"> 广联3G卡
+					</label>
+					<label class="checkbox-inline"> <input icheck name="wbCard" type="checkbox" 
+						ng-change="getCardService()" ng-model="servicePackageData.wbCard"> 外部卡
+					</label>
+					<input name="checkCard" class="form-control" type="hidden" ng-required="true" ng-model="checkCards"/>
+					<div class="m-t-xs"
+						ng-show="add_servicePackage_form.checkCard.$invalid  && add_servicePackage_form.submitted">
+					<small class="text-danger"
+						ng-show="add_servicePackage_form.checkCard.$error.required">请添加卡</small>
+					 </div>		
+				</div>
+			</div>
+			<div class="form-group required">
+				<label class="col-lg-3 control-label required">添加服务</label>
+				<div class="col-lg-9 control-content">
+					<div>
+						<button class="btn btn-primary btn-sm" type="button" ng-click="addService()">添加服务</button>
+					    <input name="service" class="form-control" type="hidden" ng-required="true" ng-model="serviceList[0]"/>
+					    <div class="m-t-xs"
+						ng-show="add_servicePackage_form.service.$invalid && add_servicePackage_form.submitted">
+						<small class="text-danger"
+							ng-show="add_servicePackage_form.service.$error.required">已选服务列表为空,请重新选择支持的设备或卡</small>
+					    </div>
+					</div>
+					<div>
+						<table datatable="ng" dt-options="dtOptions"
+							class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>服务编号</th>
+									<th>服务名称</th>
+									<th>计费方式</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in serviceList">
+									<td>{{ item.id }}</td>
+									<td>{{ item.name }}</td>
+									<td>{{ item.quantityUnit!=null?"按数量":"按时间" }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+            <div class="form-group">
+				<label class="col-lg-3 control-label required" >有效期</label>
+				<div class="col-lg-9 control-content">
+				<div class="row">
+				   <div class="col-lg-4">
+					<ui-select name="validityPeriodUnit"  ng-required="true" ng-model="servicePackageData.validityPeriodUnit" theme="bootstrap">
+					<ui-select-match placeholder="请选择有效期">{{$select.selected.text}}</ui-select-match>
+					<ui-select-choices  repeat="item in times">
+					<div ng-click="isShow(item)" ng-bind=" item.text "></div>
+					</ui-select-choices> </ui-select>
+					<div class="m-t-xs"
+						ng-show="add_servicePackage_form.validityPeriodUnit.$invalid  && add_servicePackage_form.submitted">
+						<small class="text-danger"
+							ng-show="add_servicePackage_form.validityPeriodUnit.$error.required ">请选择有效期</small>
+					</div>
+					</div>
+					<div class="col-lg-4" ng-if="showValidityPeriod">
+					<input name="validityPeriod" class="form-control" type="text" ng-pattern="/^[1-9]\d*$/" ng-required="true" ng-model="servicePackageData.validityPeriod" maxlength="11" />
+					<div class="m-t-xs"
+						ng-show="add_servicePackage_form.validityPeriod.$invalid  && add_servicePackage_form.submitted">
+						<small class="text-danger"
+							ng-show="add_servicePackage_form.validityPeriod.$error.required ">请填写有效期</small>
+						<small class="text-danger"
+							ng-show="add_servicePackage_form.validityPeriod.$error.pattern">请填写大于0的数字</small>
+					</div>
+					</div>
+				</div>
+				</div>
+			</div>
+			<div class="form-group" >
+				<label class="col-lg-3 control-label">服务定制商</label>
+				<div class="col-lg-9 control-content">
+					<div>
+						<button class="btn btn-primary" type="submit"
+							ng-click="addMerchant()">添加定制商</button>				
+					</div>
+					<div>
+						<table datatable="ng" dt-options="dtOptions"
+							class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>商户号</th>
+									<th>定制商名称</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in merchantList">
+									<td>{{ item.merchantId }}</td>
+									<td>{{ item.merchantName }}</td>	
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label required">渠道</label>
+				<div class="col-lg-9 control-content">
+					<ui-select name="channel" ng-required="true"
+						ng-model="servicePackageData.channel" theme="bootstrap"> <ui-select-match
+						placeholder="请选择渠道">{{$select.selected.text}}</ui-select-match> <ui-select-choices
+						repeat="item in channelList">
+					<div ng-bind=" item.text"></div>
+					</ui-select-choices> </ui-select>
+					<div class="m-t-xs"
+						ng-show="add_servicePackage_form.channel.$invalid && add_servicePackage_form.submitted">
+						<small class="text-danger"
+							ng-show="add_servicePackage_form.channel.$error.required">请选择渠道</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label required">标签</label>
+				<div class="col-lg-9 control-content">
+					<ui-select name="ServiceTag" ng-required="true"
+						ng-model="servicePackageData.serviceTag" theme="bootstrap"> <ui-select-match
+						placeholder="请选择标签">{{$select.selected.text}}</ui-select-match> <ui-select-choices
+						repeat="item in labelList">
+					<div ng-bind=" item.text"></div>
+					</ui-select-choices> </ui-select>
+					<div class="m-t-xs"
+						ng-show="add_servicePackage_form.ServiceTag.$invalid && add_servicePackage_form.submitted">
+						<small class="text-danger"
+							ng-show="add_servicePackage_form.ServiceTag.$error.required">请选择标签</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">描述</label>
+				<div class="col-lg-9 control-content">
+					<textarea ng-model="servicePackageData.description" name="describe"
+						class="form-control" maxlength="500"></textarea>
+					<div class="text-danger">描述字数不能大于500</div>	
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button ng-if="servicePackageData.shelveStatus!=3" type="submit" class="btn btn-primary btn-outline pull-left"
+			ng-click="ok(1)">存草稿</button>
+		<button type="submit" class="btn btn-primary"
+			ng-click="ok(2)">上架</button>
+		<button type="button" class="btn btn-white" ng-click="cancel()">取消</button>
+	</div>
+</div>

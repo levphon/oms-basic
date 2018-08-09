@@ -1,0 +1,128 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">分类列表</div>
+				<div class="panel-body">
+                    <div class="m-b-sm">
+						<button type="button" ng-click="scCtrl.unfold()"
+							class="btn btn-default">{{scCtrl.isOpen ? '全部收起' : '全部展开'}}</button>
+						<div class="pull-right">
+							<button type="button" ng-disabled="isShowParent" ng-click="scCtrl.addfistcategory()"
+								class="btn btn-info">添加同级分类</button>
+							<button type="button" ng-disabled="isShowChild" ng-click="scCtrl.addsecondcategory()"
+								class="btn btn-info">添加子分类</button>
+						</div>
+					</div>
+					<div ng-if="scCtrl.categoryList" js-tree="scCtrl.treeConfig"
+						id="tree" ng-model="scCtrl.categoryList"
+						should-apply="scCtrl.applyModelChanges()"
+						tree-events="select_node:scCtrl.select_node"
+						tree="scCtrl.treeInstance"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-8">
+			<div class="panel panel-default" ng-if="scCtrl.isShow">
+				<div class="panel-heading">分类详情</div>
+				<div class="panel-body">
+					<form role="form" class="form-horizontal form-fixed form-fixed-4" name="scCtrl.service_category_form">
+						<div class="form-group">
+							<label class="col-lg-3 control-label">分类编号</label>
+							<div class="col-lg-8 control-content">
+								<input name="number" class="form-control" type="text"
+									ng-disabled="true" ng-model="scCtrl.categoryData.id" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label required">分类名称</label>
+							<div class="col-lg-8 control-content">
+							    <input name="origName" class="form-control" type="hidden" ng-model="origName"/>
+								<input name="Name" class="form-control" type="text" v-onblur v-async="asyncCallback(value)"
+									ng-required="true" ng-model="scCtrl.categoryData.name" maxlength="50" />
+								<div class="m-t-xs"
+									ng-show="scCtrl.service_category_form.Name.$invalid && scCtrl.service_category_form.submitted">
+									<small class="text-danger"
+										ng-show="scCtrl.service_category_form.Name.$error.required">请填写分类名称</small>
+								    <small class="text-danger" 
+						                ng-show="scCtrl.service_category_form.Name.$error.vAsync">分类名称已存在，请重新输入</small>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label required">类型</label>
+							<div class="col-lg-8 control-content">
+								<ui-select name="type" ng-required="true" ng-disabled="isSelect"
+									ng-model="scCtrl.categoryData.type" theme="bootstrap">
+								<ui-select-match placeholder="请选择类型">{{$select.selected.text}}</ui-select-match>
+								<ui-select-choices repeat="item in types">
+								<div ng-bind=" item.text "></div>
+								</ui-select-choices> </ui-select>
+								<div class="m-t-xs"
+									ng-show="scCtrl.service_category_form.type.$invalid && scCtrl.service_category_form.submitted">
+									<small class="text-danger"
+										ng-show="scCtrl.service_category_form.type.$error.required">请选择类型</small>
+								</div>
+
+							</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">描述</label>
+								<div class="col-lg-8 control-content">
+									<textarea name="describe" class="form-control"
+										ng-model="scCtrl.categoryData.description" maxlength="500"></textarea>
+									<div class="text-danger">描述字数不能大于500</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">服务数</label>
+								<div class="col-lg-8 control-content">
+									<input name="serviceCount" class="form-control" type="text"
+										ng-disabled="true" ng-model="scCtrl.categoryData.serviceCount" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">创建人</label>
+								<div class="col-lg-8 control-content">
+									<input name="creator" class="form-control" type="text"
+										ng-disabled="true" ng-model="scCtrl.categoryData.createBy" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">创建时间</label>
+								<div class="col-lg-8 control-content">
+									<input name="createTime" class="form-control" type="text"
+										ng-disabled="true" ng-model="scCtrl.categoryData.createTime" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">修改人</label>
+								<div class="col-lg-8 control-content">
+									<input name="editor" class="form-control" type="text"
+										ng-disabled="true" ng-model="scCtrl.categoryData.updateBy" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">修改时间</label>
+								<div class="col-lg-8 control-content">
+									<input name="editTime" class="form-control" type="text"
+										ng-disabled="true" ng-model="scCtrl.categoryData.updateTime" />
+								</div>
+							</div>
+					</form>
+				</div>
+				<div class="panel-footer clearfix">					
+					<button type="button" class="btn btn-default pull-right"
+						ng-click="scCtrl.cancel()">取消</button>
+				    <button ng-if="scCtrl.select=='fist'||scCtrl.select=='second'"
+						type="button" class="btn btn-primary pull-left m-r-sm"
+						ng-click="scCtrl.ok(scCtrl.select)">保存</button>
+					<button ng-if="scCtrl.select!='fist'&&scCtrl.select!='second'"
+						type="button" class="btn btn-info pull-left m-r-sm"
+						ng-click="scCtrl.edit()">保存</button>
+					<button type="button" ng-if="isShowDelete" class="btn btn-danger pull-left" ng-click="scCtrl.del()">删除</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

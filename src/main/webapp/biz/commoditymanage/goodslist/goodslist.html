@@ -1,0 +1,111 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <form role="form" class="form-horizontal clearfix" name="goods_form" ng-submit="goodsForm()">
+        <div class="row col-lg-11 col-sm-11 col-xs-10 justified">
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">创建时间</label>
+                    <div class="col-lg-8">
+                        <input date-range-picker name="createTime" class="form-control date-picker" type="text" ng-model="goods.createTime" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">商品分类</label>
+                    <div class="col-lg-8 relative">
+							<tree-select ts-option="scCtrl.categoryList" placeholder="请选择分类" ng-model="goods.category">
+                        	</tree-select>
+							 
+					</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">线下销售渠道</label>
+                    <div class="col-lg-8">
+                        <ui-select ng-model="goods.offlinesaleschannels" theme="bootstrap">
+                            <ui-select-match placeholder="请选择线下销售渠道">{{$select.selected.conf_value}}</ui-select-match>
+                            
+                            <ui-select-choices repeat="item in offlinesaleschannels">
+                                <div ng-bind="item.conf_value "></div>
+                            </ui-select-choices>
+                            
+                        </ui-select>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">商品状态</label>
+                    <div class="col-lg-8">
+                        <ui-select ng-model="goods.shelveStatus" theme="bootstrap">
+                            <ui-select-match placeholder="请选择状态">{{$select.selected.text}}</ui-select-match>
+                            <ui-select-choices repeat="item in shelveStatus">
+                                <div ng-bind=" item.text "></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+           
+              <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">审核状态</label>
+                    <div class="col-lg-8">
+                        <ui-select ng-model="goods.auditingStatus" theme="bootstrap">
+                            <ui-select-match placeholder="请选择状态">{{$select.selected.text}}</ui-select-match>
+                            <ui-select-choices repeat="item in auditingStatus">
+                                <div ng-bind=" item.text "></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+             <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">卡名称</label>
+                    <div class="col-lg-8">
+                        <ui-select ng-model="goods.cardName" theme="bootstrap">
+                            <ui-select-match placeholder="请选择卡名称">{{$select.selected.text}}</ui-select-match>
+                            <ui-select-choices repeat="item in cardName">
+                                <div ng-bind=" item.text "></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                   <div class="col-lg-4 col-sm-4" style="padding-right:0;">
+                        <ui-select ng-model="goods.queryType" theme="bootstrap">
+                            <ui-select-match placeholder="请选择">{{$select.selected.text}}</ui-select-match>
+                            <ui-select-choices repeat="item in queryType">
+                                <div ng-bind=" item.text"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" placeholder="请输入编号或名称" name="conditionQuery" ng-model="goods.queryText" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-1 col-sm-1 col-xs-2 justified">
+            <div class="form-group">
+                <button class="btn btn-primary btn-block pull-right" type="submit">查询</button>
+            </div>
+        </div>
+    </form>
+    
+    <div class="ibox float-e-margins relative">
+        <div class="ibox-title">
+            <h5>商品列表</h5>
+        </div>
+        <div class="ibox-content">
+            <div process-datatable dt-options="dtOptions" dt-instance="dtInstance" dt-columns="dtColumns"></div>          
+        </div>
+    </div>
+</div>

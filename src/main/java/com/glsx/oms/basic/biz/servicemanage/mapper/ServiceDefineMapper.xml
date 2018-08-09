@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glsx.oms.basic.biz.servicemanage.mapper.ServiceDefineMapper">
+ 
+  <select id="queryList" resultType="com.glsx.oms.basic.biz.servicemanage.model.ServiceDefine">
+    select 
+       id id,
+       name name,
+       service_classfication_id serviceClassficationId,
+       service_classfication_name serviceClassficationName,
+       service_tag_id serviceTagId,
+       service_tag_name serviceTagName,
+       supplier_Id supplierId,
+       supplier_Name supplierName,
+       quantity_unit quantityUnit,
+       quantity quantity,
+       validity_period_unit validityPeriodUnit,
+       validity_period validityPeriod,
+       description description,
+       shelve_status shelveStatus,
+       create_by createBy,
+       create_time createTime,
+       update_by updateBy,
+       update_time updateTime
+   from platform_service_definition sd
+   where 1=1
+   <if test="startTime != null and endTime != null">  
+        and create_time between #{startTime} and #{endTime}  
+   </if>
+   <if test="serviceClassficationId != null and serviceClassficationId != 0">  
+       and FIND_IN_SET(service_classfication_id, getServiceCategoryChildList(#{serviceClassficationId})) 
+   </if>
+   <if test="supplierId != null and supplierId != 0">  
+        and supplier_Id = #{supplierId}
+   </if>
+   <if test="shelveStatus!=null and shelveStatus != 0">  
+        and shelve_status = #{shelveStatus}
+   </if>
+   <if test="serviceTagId!=null and serviceTagId != 0">  
+        and service_tag_id = #{serviceTagId}
+   </if>
+   <if test="queryText != null">  
+        and (id like '%${queryText}%' or name like '%${queryText}%')
+   </if>   
+  </select>
+  
+  <select id="queryById" resultType="com.glsx.oms.basic.biz.servicemanage.model.ServiceDefine">
+    select 
+       id id,
+       name name,
+       service_classfication_id serviceClassficationId,
+       service_classfication_name serviceClassficationName,
+       service_tag_id serviceTagId,
+       service_tag_name serviceTagName,
+       supplier_Id supplierId,
+       supplier_Name supplierName,
+       quantity_unit quantityUnit,
+       quantity quantity,
+       validity_period_unit validityPeriodUnit,
+       validity_period validityPeriod,
+       description description,
+       shelve_status shelveStatus,
+       create_by createBy,
+       create_time createTime,
+       update_by updateBy,
+       update_time updateTime
+    from platform_service_definition sd
+    where id=#{id}
+  </select>
+  <select id="queryCardById" resultType="Integer">
+    select 
+          card_type_id cardType
+    from  
+          platform_associate_card
+    where type=1 and associate_id=#{id}
+  </select>
+  <select id="queryAppById" resultType="com.glsx.oms.basic.biz.servicemanage.model.vo.AppVo">
+    select 
+          app_id appCode,
+          app_name appName 
+    from  
+          platform_associate_application
+    where type=1 and associate_id=#{id}
+  </select>
+  <select id="queryDeviceById" resultType="com.glsx.oms.basic.biz.servicemanage.model.vo.DeviceVo">
+      select 
+          device_type_id deviceId,
+          device_type_name deviceName,
+          supplier_name supplierName 
+    from  
+          platform_associate_device
+    where type=1 and associate_id=#{id}
+  </select>
+ 
+</mapper>

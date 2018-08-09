@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glsx.oms.basic.biz.servicemanage.mapper.LabelMapper">
+ 
+<select id="queryList" resultType="com.glsx.oms.basic.biz.servicemanage.model.Label">
+    select 
+       tag.id id,
+       tag.name name,
+       tag.type type,
+       tag.description description,
+       tag.create_by createBy,
+       tag.create_time createTime,
+       tag.update_by updateBy,
+       tag.update_time updateTime
+from platform_service_tag tag
+where 1=1
+    <if test="startTime != null and endTime != null">  
+        and create_time between #{startTime} and #{endTime}  
+    </if>
+   <if test="queryText != null">  
+        and (id like '%${queryText}%' or name like '%${queryText}%')
+   </if>
+   <if test="type != 0">  
+        and type=#{type}
+   </if>
+ORDER BY createTime DESC 
+  </select>
+  
+  <select id="queryById" resultType="com.glsx.oms.basic.biz.servicemanage.model.Label">
+    select 
+       tag.id id,
+       tag.name name,
+       tag.type type,
+       tag.description description,
+       tag.create_by createBy,
+       tag.create_time createTime,
+       tag.update_by updateBy,
+       tag.update_time updateTime  
+    from platform_service_tag tag
+    where id=#{id}
+  </select> 
+ 
+</mapper>

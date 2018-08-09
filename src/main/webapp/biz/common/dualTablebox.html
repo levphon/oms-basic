@@ -1,0 +1,17 @@
+<div class="dual-tablebox row">
+    <!-- dual-tablebox 指令模板 -->
+    <div class="col-lg-6 panel m-b-none">
+        <div class="panel-heading">选择</div>
+        <div class="panel-body">
+            <!-- form -->
+            <div ng-transclude></div>
+            <table datatable="" dt-options="selecting_dtOptions" dt-columns="selecting_dtColumns" dt-instance="selecting_dtInstance" class="table table-striped table-bordered table-hover table-scrollX"></table>
+        </div>
+    </div>
+    <div class="col-lg-6 panel m-b-none">
+        <div class="panel-heading">已选</div>
+        <div class="panel-body">
+            <table datatable="" dt-options="selected_dtOptions" dt-columns="selected_dtColumns" dt-instance="selected_dtInstance" class="table table-striped table-bordered table-hover table-scrollX"></table>
+        </div>
+    </div>
+</div>

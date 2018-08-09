@@ -1,0 +1,52 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <form role="form" class="form-horizontal clearfix" name="service_form" ng-submit="serviceForm()">
+        <div class="row col-lg-11 col-sm-11 col-xs-10 justified">
+           <div class="col-lg-4 col-sm-6">
+				<div class="form-group">
+					<label class="col-lg-4 control-label">创建时间</label>
+					<div class="col-lg-8">
+						<input date-range-picker name="createTime"
+							class="form-control date-picker" type="text"
+							ng-model="service.createTime" />
+					</div>
+				</div>
+			</div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">标签类型</label>
+                    <div class="col-lg-8">
+                        <ui-select ng-model="service.type" theme="bootstrap">
+                            <ui-select-match placeholder="请选择分类">{{$select.selected.text}}</ui-select-match>
+                            <ui-select-choices repeat="item in types">
+                                <div ng-bind=" item.text "></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">条件查询</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" placeholder="根据标签名称查询" name="conditionQuery" ng-model="service.queryText" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-1 col-sm-1 col-xs-2 justified">
+            <div class="form-group">
+                <button class="btn btn-primary btn-block pull-right" type="submit">查询</button>
+            </div>
+        </div>
+    </form>
+    <div class="ibox float-e-margins relative">
+        <div class="ibox-title">
+            <h5>标签列表</h5>
+        </div>
+        <div class="ibox-content">
+            <div process-datatable dt-options="dtOptions" dt-instance="dtInstance" dt-columns="dtColumns">
+            </div>
+        </div>
+    </div>
+</div>
+

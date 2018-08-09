@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glsx.oms.basic.biz.commoditymanage.mapper.ConfigurationMapper">
+  
+  <select id="queryChannelList"  resultType="com.glsx.oms.basic.biz.commoditymanage.model.Configuration">
+	SELECT conf_id,
+	conf_type,
+	conf_value, 
+	memo
+	FROM
+	platform_configuration 
+	WHERE
+	conf_type ='MERCHANT_LABEL'
+	order by create_time desc,conf_value desc
+  </select>
+</mapper>

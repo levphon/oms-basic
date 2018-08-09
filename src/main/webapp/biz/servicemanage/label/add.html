@@ -1,0 +1,49 @@
+ <div class="inmodal">
+	<div class="modal-header">
+		<h4 class="modal-title">{{isEdit ? "编辑" : "添加"}}标签</h4>
+	</div>
+	<div class="modal-body">
+		<form role="form" class="form-horizontal form-fixed form-fixed-4" novalidate name="add_service_form">
+			<div class="form-group">
+				<label class="col-lg-4 control-label required">标签名称</label>
+				<div class="col-lg-6 control-content">
+					<input name="Name" class="form-control" type="text"
+						v-onblur v-async="asyncCallback(value)" ng-required="true"
+						ng-model="serviceData.name" maxlength="50"/>
+					<div class="m-t-xs"
+						ng-show="add_service_form.Name.$invalid && add_service_form.submitted">
+						<small class="text-danger"
+							ng-show="add_service_form.Name.$error.required">请填写标签名称</small> 
+						<small class="text-danger" 
+						    ng-show="add_service_form.Name.$error.vAsync">标签名称已存在，请重新输入</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-4 control-label required">标签类型</label>
+				<div class="col-lg-6 control-content">
+					<ui-select name="Billing" ng-required="true" ng-model="serviceData.type" theme="bootstrap">
+					<ui-select-match placeholder="请选择">{{$select.selected.text}}</ui-select-match>
+					<ui-select-choices repeat="item in types">
+					<div ng-bind=" item.text "></div>
+					</ui-select-choices> </ui-select>
+					<div class="m-t-xs" ng-show="add_service_form.Billing.$invalid && add_service_form.submitted">
+                    <small class="text-danger" ng-show="add_service_form.Billing.$error.required">请选择标签类型</small>     
+				    </div>   
+				    
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-4 control-label">描述</label>
+				<div class="col-lg-6 control-content">
+					<textarea ng-model="serviceData.description" name="describe"
+						class="form-control" maxlength="500"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+	    <button type="submit" class="btn btn-primary"  ng-click="ok()">确定</button>	
+		<button type="button" class="btn btn-white" ng-click="cancel()">取消</button>
+	</div>
+</div>

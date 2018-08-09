@@ -1,0 +1,32 @@
+<div class="inmodal">
+	<div class="modal-header">
+		<h4 class="modal-title">添加流量</h4>
+	</div>
+	<div class="modal-body">
+		<!-- 自定义查询表单 -->
+		<form role="form" class="form-horizontal" name="add_flowpackage_form">
+			<div class="form-group m-b-none">
+			   <div class="col-lg-4">
+					<ui-select ng-model="condition.packageCategory" theme="bootstrap">
+					<ui-select-match placeholder="请选择套餐类型">{{$select.selected.text}}</ui-select-match>
+					<ui-select-choices repeat="item in packageCategory">
+					<div ng-bind="item.text"></div>
+					</ui-select-choices> </ui-select>
+				</div>
+				<div class="col-lg-6">
+					<input name="conditon" placeholder="支持按套餐编号与套餐名称搜索"
+						class="form-control" type="text" ng-model="condition.name" />
+				</div>
+				<div class="col-lg-2">
+					<button type="button" class="btn btn-primary btn-block pull-right" ng-click="query()">查询</button>
+				</div>
+			</div>
+		</form>
+		<dual-tablebox ng-if="selectingList" dt-option="dtOption"
+			dt-instance="dtInstance"> </dual-tablebox>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary" ng-click="ok()">确定</button>
+		<button type="button" class="btn btn-white" ng-click="cancel()">取消</button>
+	</div>
+</div>

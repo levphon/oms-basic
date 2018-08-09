@@ -1,0 +1,78 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <form role="form" class="form-horizontal clearfix" name="audit_form" ng-submit="auditForm()">
+        <div class="row col-lg-11 col-sm-11 col-xs-10 justified">
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">创建时间</label>
+                    <div class="col-lg-8">
+                        <input date-range-picker name="createTime" class="form-control date-picker" type="text" ng-model="goods.createTime" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">商品分类</label>
+                    <div class="col-lg-8 relative">
+                       <!--  <input type="text" ng-model="goods.categoryId" style="display: none;" />
+                        <input type="text" class="form-control" ng-model="goods.category" ng-keyup="scCtrl.onkeup()" />
+                        <div ng-show="count" style="position: absolute;z-index:100;background-color: #fff;width: 100%;overflow-y: auto;max-height: 200px;border: 1px solid #ddd;">
+                            <div ng-if="scCtrl.categoryList" only-leaf="true" js-tree="scCtrl.treeConfig" ng-model="scCtrl.categoryList" should-apply="scCtrl.applyModelChanges()" tree-events="select_node:scCtrl.select_node" tree="scCtrl.treeInstance">
+                            </div>
+                        </div> -->
+                        <tree-select ts-option="scCtrl.categoryList" placeholder="请选择分类" ng-model="goods.category">
+                        	</tree-select>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">线下销售渠道</label>
+                    <div class="col-lg-8">
+                        <ui-select ng-model="goods.offlinesaleschannels" theme="bootstrap">
+                            <ui-select-match placeholder="请选择线下销售渠道">{{$select.selected.conf_value}}</ui-select-match>
+                            <ui-select-choices repeat="item in offlinesaleschannels">
+                                <div ng-bind=" item.conf_value "></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">审核状态</label>
+                    <div class="col-lg-8">
+                        <ui-select ng-model="goods.auditingStatus" theme="bootstrap">
+                            <ui-select-match placeholder="请选择状态">{{$select.selected.text}}</ui-select-match>
+                            <ui-select-choices repeat="item in auditingStatus">
+                                <div ng-bind=" item.text "></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">条件查询</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" placeholder="支持按商品编号、商品名称模糊摸索" name="conditionQuery" ng-model="goods.queryText" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-1 col-sm-1 col-xs-2 justified">
+            <div class="form-group">
+                <button class="btn btn-primary btn-block pull-right" type="submit">查询</button>
+            </div>
+        </div>
+    </form>
+    <div class="ibox float-e-margins relative">
+        <div class="ibox-title">
+            <h5>审核列表</h5>
+        </div>
+        <div class="ibox-content">
+            <div ng-if="dtOptions" process-datatable dt-options="dtOptions" dt-instance="dtInstance" dt-columns="dtColumns">
+            </div>
+        </div>
+    </div>
+</div>

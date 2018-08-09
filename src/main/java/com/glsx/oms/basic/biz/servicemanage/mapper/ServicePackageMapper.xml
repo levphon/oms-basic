@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.glsx.oms.basic.biz.servicemanage.mapper.ServicePackageMapper">
+
+	<select id="queryList"
+		resultType="com.glsx.oms.basic.biz.servicemanage.model.ServicePackages">
+		select id id,
+		name name,
+		merchant_id merchantId,
+		merchant_name
+		merchantName,
+		service_tag_id serviceTagId,
+		service_tag_name serviceTagName,
+		validity_period validityPeriod,
+		validity_period_unit validityPeriodUnit,
+		shelve_status shelveStatus,
+		description description,
+		create_by createBy,
+		create_time createTime,
+		update_by updateBy,
+		update_time updateTime
+		from platform_service_package
+		where 1=1
+		<if test="startTime != null and endTime != null">
+			and create_time between #{startTime} and #{endTime}
+		</if>
+		<if test="shelveStatus != null ">
+			and shelve_status = #{shelveStatus}
+		</if>
+		<if test="serviceTagId != null ">
+			and service_tag_id = #{serviceTagId}
+		</if>
+		<if test="queryText != null">
+			and (id like '%${queryText}%' or name like '%${queryText}%')
+		</if>
+	</select>
+
+	<select id="queryById"
+		resultType="com.glsx.oms.basic.biz.servicemanage.model.ServicePackages">
+		select id id,
+		name name,
+		merchant_id merchantId,
+		merchant_name merchantName,
+		service_tag_id serviceTagId,
+		service_tag_name serviceTagName,
+		validity_period validityPeriod,
+		validity_period_unit validityPeriodUnit,
+		shelve_status shelveStatus,
+		description description,
+		create_by createBy,
+		create_time createTime,
+		update_by updateBy,
+		update_time updateTime
+		from platform_service_package
+		where id=#{id}
+	</select>
+	
+	 <select id="queryServiceDefineById" resultType="com.glsx.oms.basic.biz.servicemanage.model.ServiceDefine">
+    select 
+       sd.id id,
+       sd.name name,
+       sd.service_classfication_id serviceClassficationId,
+       sd.service_classfication_name serviceClassficationName,
+       sd.service_tag_id serviceTagId,
+       sd.service_tag_name serviceTagName,
+       sd.supplier_Id supplierId,
+       sd.supplier_Name supplierName,
+       sd.quantity_unit quantityUnit,
+       sd.quantity quantity,
+       sd.description description,
+       sd.shelve_status shelveStatus,
+       sd.create_by createBy,
+       sd.create_time createTime,
+       sd.update_by updateBy,
+       sd.update_time updateTime 
+    from platform_service_definition sd,platform_service_package sp, platform_service_package_definition spd
+    where sd.id=spd.service_id and sp.id=spd.packageid
+    and sp.id=#{id}
+  </select>
+</mapper>

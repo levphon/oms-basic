@@ -1,0 +1,46 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul side-navigation class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <img alt="image" class="img-circle" src="static/images/glsx.png">
+                <div class="profile-element inline" uib-dropdown>
+                    <a uib-dropdown-toggle href>
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <strong class="font-bold">{{main.userName}}</strong>
+                            </span>
+                            <!-- <span class="text-muted text-xs block">Example menu<b class="caret"></b></span> -->
+                        </span>
+                    </a>
+                    <!-- <ul uib-dropdown-menu="" class="animated fadeInRight m-t-xs">
+                        <li><a href="">Logout</a></li>
+                    </ul> -->
+                </div>
+                <!-- <div class="logo-element">
+                    IN+
+                </div> -->
+            </li>
+            <li ng-repeat="fst in menuList" ng-class="{active: $state.includes(fst.url)}">
+                <a href="#">
+                    <i class="fa fa-img-nav fa-{{fst.url}}"></i>
+                    <span class="nav-label">{{ fst.menuTitle || fst.pageTitle}}</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes(fst.url)}">
+                    <li ui-sref-active="active" ng-repeat="sec in fst.children" ng-class="{active: $state.includes(fst.url+'.'+sec.url)}">
+                        <a ng-if="!sec.children" ui-sref-opts="{reload: true}" ui-sref="{{fst.url+'.'+sec.url}}">{{sec.menuTitle || sec.pageTitle}}</a>
+                        <a ng-if="sec.children" href="#">
+                            <span class="nav-label">{{ sec.menuTitle || sec.pageTitle}}</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul ng-if="sec.children" class="nav nav-third-level collapse" ng-class="{in: $state.includes(fst.url+'.'+sec.url)}">
+                            <li ui-sref-active="active" ng-repeat="thr in sec.children" ng-class="{active: $state.includes(fst.url+'.'+sec.url+'.'+thr.url)}">
+                                <a ui-sref-opts="{reload: true}" ui-sref="{{fst.url+'.'+sec.url+'.'+thr.url}}">{{thr.menuTitle || thr.pageTitle}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

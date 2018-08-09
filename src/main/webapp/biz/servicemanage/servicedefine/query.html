@@ -1,0 +1,175 @@
+<div class="inmodal">
+	<div class="modal-header">
+		<h4 class="modal-title">查看服务</h4>
+	</div>
+	<div class="modal-body">
+		<form role="form" class="form-horizontal form-fixed form-fixed-6" novalidate
+			name="add_service_form">
+			<div class="form-group">
+				<label class="col-lg-3 control-label">服务名称</label>
+				<div class="col-lg-9 control-content">
+					<input class="form-control" type="text" ng-disabled="true" ng-model="serviceData.name"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">分类</label>
+				<div class="col-lg-9 control-content">
+				<input  class="form-control" type="text" ng-disabled="true" ng-model="serviceData.serviceClassficationName"/>
+			    </div>
+			</div>
+			<hr>
+			<div class="form-group" ng-if="showCard">
+				<label class="col-lg-3 control-label">绑定卡</label>
+				<div class="col-lg-9 control-content">
+					<label ng-if="showCqltCard"> 
+						 重庆联通卡
+					</label> 
+					<label ng-if="showGlfrCard">
+						广联繁睿卡
+					</label>
+				</div>
+			</div>
+			<div class="form-group" ng-if="showApp">
+				<label class="col-lg-3 control-label">实际应用</label>
+				<div class="col-lg-9 control-content">
+				    <div>
+					<table datatable="ng" dt-options="dtOptions" class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+								<th width="100">应用编号</th>
+								<th width="200">应用名称</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in appList">
+								<td>{{ item.appCode }}</td>
+					            <td class="text-ellipsis" title="{{item.appName}}">{{ item.appName }}</td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" ng-if="showFlowPackage">
+				<label class="col-lg-3 control-label">实际流量</label>
+				<div class="col-lg-9 control-content">
+				    <div>
+					<table datatable="ng" dt-options="dtOptions" class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th width="80px">套餐编号</th>
+								<th width="120px">套餐名称</th>
+								<th width="100px">套餐类别</th>
+								<th width="100px">计费方式</th>
+								<th width="100px">增值流量类型</th>
+								<th width="100px">增值总流量(M)</th>
+								<th width="100px">基础流量类型</th>
+								<th width="100px">基础总流量(M)</th>
+								<th width="60px">有效期</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in flowPackageList">
+								<td>{{ item.flowPackageId }}</td>
+					            <td class="text-ellipsis" title="{{ item.packageName }}">{{ item.packageName }}</td>
+					            <td>{{ item.packageCategory }}</td>
+					            <td>{{ item.billingMethods }}</td>
+					            <td class="text-ellipsis" title="{{ item.addedFlowType }}">{{ addedFlowType(item) }}</td>
+					            <td class="text-ellipsis" title="{{ item.totalAddedFlow }}">{{ totalAddedFlow(item) }}</td>
+					            <td class="text-ellipsis" title="{{ item.basicFlowType }}">{{ basicFlowType(item) }}</td>
+					            <td class="text-ellipsis" title="{{ item.totalBasicFlow }}">{{ totalBasicFlow(item) }}</td>
+					            <td>{{ item.validityPeriod }}{{ item.validityPeriodUnit }}</td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" ng-if="showDevice">
+				<label class="col-lg-3 control-label">设备</label>
+				<div class="col-lg-9 control-content">
+					<div>
+						<table datatable="ng" dt-options="dtOptions"
+							class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>设备编号</th>
+									<th>设备名称</th>
+									<th>供应商名称</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in deviceList">
+									<td>{{ item.deviceId }}</td>
+									<td>{{ item.deviceName }}</td>
+									<td>{{ item.supplierName }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">计费方式</label>
+				<div class="col-lg-9 control-content">
+					<div class="row">
+				   <div class="col-lg-4">
+				     <input  class="form-control" type="text" ng-disabled="true" ng-model="serviceData.billing"/>				
+					</div>
+					<div class="col-lg-4" ng-if="showQuantityUnit">
+					<input  class="form-control" type="text" ng-disabled="true" ng-model="serviceData.quantityUnit"/>				
+					</div>
+					<div class="col-lg-4" ng-if="showQuantity" >
+					<input name="quantity" class="form-control" type="text"  ng-disabled="true" ng-model="serviceData.quantity" />
+					</div>
+				</div>					
+				</div>
+			</div>
+			<hr>
+			<div class="form-group" ng-if="showValidityPeriodUnit">
+				<label class="col-lg-3 control-label" >有效期</label>
+				<div class="col-lg-9 control-content">
+				<div class="row">
+				   <div class="col-lg-4">
+				    <input  class="form-control" type="text" ng-disabled="true" ng-model="serviceData.validityPeriodUnit"/>
+				   </div>
+					<div class="col-lg-4" ng-if="showValidityPeriod">
+					<input name="validityPeriod" class="form-control" type="text" ng-disabled="true" ng-model="serviceData.validityPeriod"/>
+					</div>
+				</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">供应商</label>
+				<div class="control-content">
+                    <div class="row">
+                        <div class="col-lg-8">
+                        <input name="validityPeriod" class="form-control" type="text" ng-disabled="true" ng-model="serviceData.supplierName" />							
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">标签</label>
+				<div class="control-content">
+                    <div class="row">
+                        <div class="col-lg-4">
+                        <input name="validityPeriod" class="form-control" type="text" ng-disabled="true" ng-model="serviceData.serviceTagName" />					
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">描述</label>
+				<div class="col-lg-9 control-content">
+					<textarea ng-disabled="true" ng-model="serviceData.description" name="describe"
+						class="form-control"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-white" ng-click="cancel()">取消</button>
+	</div>
+</div>
